@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  train-server:
+    build: 
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: train-server
+    restart: unless-stopped
+    environment:
+      - DB_HOST=train-db
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=school_manage
+      - REDIS_HOST=train-redis
+      - REDIS_PORT=6379
+    ports:
+      - "8080:8080"
+    depends_on:
+      - train-db
+      - train-redis
+    networks:
+      - train-net
+
+  train-admin:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    container_name: train-admin
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - train-server
+    networks:
+      - train-net
+
+  train-db:
+    image: mysql:8.0
+    container_name: train-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_DATABASE: school_manage
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database:/docker-entrypoint-initdb.d:ro
+    networks:
+      - train-net
+
+  train-redis:
+    image: redis:7.0
+    container_name: train-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - train-net
+
+volumes:
+  mysql_data:
+  redis_data:
+
+networks:
+  train-net:
+    driver: bridge
