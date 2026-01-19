@@ -1,0 +1,18 @@
+app:
+  env: "prod"
+  port: 8080
+
+database:
+  host: "train-db"
+  port: 3306
+  username: "root"
+  password: "root"
+  dbname: "school_manage"
+  charset: "utf8mb4"
+  loc: "Local"
+
+redis:
+  host: "train-redis"
+  port: 6379
+  password: ""
+  db: 0

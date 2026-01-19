@@ -1,0 +1,18 @@
+app:
+  env: "dev" # dev, prod
+  port: 8080
+
+database:
+  host: "192.168.50.82"
+  port: 3306
+  username: "root"
+  password: "123456"
+  dbname: "school_manage"
+  charset: "utf8mb4"
+  loc: "Local"
+
+redis:
+  host: "127.0.0.1"
+  port: 6379
+  password: ""
+  db: 0

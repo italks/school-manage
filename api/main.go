@@ -11,6 +11,9 @@ import (
 func main() {
 	r := gin.Default()
 
+	// Load Config
+	config.LoadConfig()
+
 	// Connect to database
 	config.ConnectDatabase()
 

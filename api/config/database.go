@@ -3,7 +3,6 @@ package config
 import (
 	"fmt"
 	"log"
-	"os"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -12,10 +11,17 @@ import (
 var DB *gorm.DB
 
 func ConnectDatabase() {
-	dsn := os.Getenv("DB_DSN")
-	if dsn == "" {
-		dsn = "root:root@tcp(127.0.0.1:3306)/school_manage?charset=utf8mb4&parseTime=True&loc=Local"
-	}
+	dbConfig := AppConfigData.Database
+
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&parseTime=True&loc=%s",
+		dbConfig.Username,
+		dbConfig.Password,
+		dbConfig.Host,
+		dbConfig.Port,
+		dbConfig.DBName,
+		dbConfig.Charset,
+		dbConfig.Loc,
+	)
 
 	database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 

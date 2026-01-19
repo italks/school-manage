@@ -1,14 +1,15 @@
 -- 创建数据库
 CREATE DATABASE IF NOT EXISTS school_manage DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-USE school_manage;
+
 
 -- 允许远程连接 (确保 root 用户可以从任意主机连接)
 -- 注意: 这种操作在生产环境中存在安全风险，建议限制特定 IP
 -- MySQL 8.0+ 语法
--- CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY 'root';
--- GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
--- FLUSH PRIVILEGES;
+CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY 'root';
+ALTER USER 'root'@'%' IDENTIFIED BY 'root';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
 
 -- 1. 用户表
 CREATE TABLE IF NOT EXISTS `users` (
